@@ -1,5 +1,6 @@
 import chess
 import chess.svg as vis
+from abc import ABC
 from random import choice
 
 def naive_points(board: chess.Board):
@@ -39,7 +40,7 @@ def naive_points(board: chess.Board):
     return white_score - black_score
     
 
-class Bot:
+class Bot(ABC):
     def __init__(self):
         pass
     
@@ -64,8 +65,8 @@ class MinimaxBot(Bot):
         
     def move(self, board: chess.Board):
         current_board = board.copy()
-        
-        board.push(self.find_best_move(current_board))
+        best_move = self.find_best_move(current_board)
+        board.push(best_move)
     
     def find_best_move(self, board):
         pass
@@ -92,20 +93,28 @@ def save_board(board: chess.Board, fp="pictures/white.svg"):
     with open(fp, 'w') as file:
         file.write(picture)
 
-if __name__ == '__main__':
-    white = RandomBot()
-    black = Person()
-    
-    our_board = chess.Board()
+def game(board: chess.Board, white: Bot, black: Bot) -> chess.Board:
     while not our_board.is_checkmate():
         print(naive_points(our_board))
         white.move(our_board)
-        save_board(board=our_board)
-        print(naive_points(our_board))
-        black.move(our_board)
-        save_board(board=our_board, fp="pictures/black.svg")
+        yield board
+        
+        if not our_board.is_checkmate():
+            print(naive_points(our_board))
+            black.move(our_board)
+            save_board(board=our_board, fp="pictures/black.svg")
+            yield board
+
+if __name__ == '__main__':
+    white = Person()
+    black = RandomBot()
     
-    
+    our_board = chess.Board()
+    our_game = game(our_board, white, black)
+    for next_board in our_game:
+        save_board(next_board)
+
+    print(naive_points(our_board))
     
     
     
