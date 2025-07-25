@@ -2,6 +2,7 @@ import chess
 import chess.svg as vis
 from abc import ABC
 from random import choice
+from typing import Generator, Any
 
 def naive_points(board: chess.Board):
     points = {
@@ -93,16 +94,15 @@ def save_board(board: chess.Board, fp="pictures/white.svg"):
     with open(fp, 'w') as file:
         file.write(picture)
 
-def game(board: chess.Board, white: Bot, black: Bot) -> chess.Board:
+def game(board: chess.Board, white: Bot, black: Bot) -> Generator[chess.Board, Any, None]:
     while not our_board.is_checkmate():
-        print(naive_points(our_board))
+        print(f"Board points: {naive_points(our_board)}")
         white.move(our_board)
         yield board
         
         if not our_board.is_checkmate():
-            print(naive_points(our_board))
+            print(f"Board points: {naive_points(our_board)}")
             black.move(our_board)
-            save_board(board=our_board, fp="pictures/black.svg")
             yield board
 
 if __name__ == '__main__':
@@ -112,7 +112,7 @@ if __name__ == '__main__':
     our_board = chess.Board()
     our_game = game(our_board, white, black)
     for next_board in our_game:
-        save_board(next_board)
+        save_board(next_board, fp="pictures/game.svg")
 
     print(naive_points(our_board))
     
