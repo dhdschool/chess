@@ -58,7 +58,7 @@ class RandomBot(Bot):
         board.push(move)
         
 class MinimaxBot(Bot):
-    def __init__(self, eval_fn, depth=3):
+    def __init__(self, eval_fn, depth=3, is_white=True):
         super().__init__()
         
         self.depth = depth

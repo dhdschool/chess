@@ -29,4 +29,4 @@ dependencies:
   - wheel=0.45.1=pyhd8ed1ab_1
   - pip:
       - chess==1.11.2
-prefix: /home/dow/miniforge3/shell/condabin/conda/envs/chess
+prefix: ~/miniforge3/shell/condabin/conda/envs/chess
