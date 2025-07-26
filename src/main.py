@@ -4,41 +4,7 @@ from abc import ABC
 from random import choice
 from typing import Generator, Any
 
-def naive_points(board: chess.Board):
-    points = {
-        chess.QUEEN:9,
-        chess.ROOK:5,
-        chess.BISHOP:3,
-        chess.KNIGHT:3,
-        chess.PAWN:1,
-        chess.KING:0
-    }
-    
-    if board.is_checkmate() and board.turn == chess.WHITE:
-        return -1000
-    
-    elif board.is_checkmate() and board.turn == chess.BLACK:
-        return 1000
-    
-    
-    white_score = 0
-    black_score = 0
-    for type in chess.PIECE_TYPES:
-        #board.pieces()
-        white_pieces = board.pieces(
-            piece_type=type,
-            color = chess.WHITE
-        )
-        
-        black_pieces = board.pieces(
-            piece_type=type,
-            color = chess.BLACK
-        )
-        
-        white_score += len(white_pieces) * points[type]
-        black_score += len(black_pieces) * points[type]
-    
-    return white_score - black_score
+
     
 
 class Bot(ABC):
